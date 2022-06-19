@@ -30,6 +30,24 @@ contract TrueRandomResearch {
         // bytes memory toKeccak = abi.encode(uint64(_number), uint64(block.timestamp), bytes16(_toEncode));
         return uint(keccak256(abi.encode(uint64(_number), uint64(block.timestamp), bytes16(_toEncode))));  // converting 32B data into 32B hash into 32B uint
     }
+    function createNumberWithInput3(bytes memory _toEncode, uint _number) private view returns (uint256) {
+        // downsizing trims higher bytes, changing bytes of timestamp are safe
+        // 8B + 8B + 16B = 32B, not necessary, precaution layer
+        uint64 _t = uint64(block.timestamp);
+        uint64 _n = uint64(_number);
+        bytes16 _b = bytes16(_toEncode);
+        bytes memory toKeccak = abi.encode(_n, _t, _b);
+        return uint(keccak256(toKeccak));  // converting 32B data into 32B hash into 32B uint
+    }
+    function createNumberWithInput4(bytes memory _toEncode, uint _number) private view returns (uint256) {
+        // downsizing trims higher bytes, changing bytes of timestamp are safe
+        // 8B + 8B + 16B = 32B, not necessary, precaution layer
+        uint64 _t = uint64(block.timestamp);
+        uint64 _n = uint64(_number);
+        bytes16 _b = bytes16(_toEncode);
+        // bytes memory toKeccak = ;
+        return uint(keccak256(abi.encode(_n, _t, _b)));  // converting 32B data into 32B hash into 32B uint
+    }
 
     function createNumber(uint _number) private view returns (uint256) {
         // downsizing trims higher bytes, changing bytes of timestamp are safe
@@ -63,11 +81,30 @@ contract TrueRandomResearch {
         return number;
     }
 
+    // gas 28920 (33258)
     function create(bytes memory _bytesInput) public returns (uint256) {
         number = createNumberWithInput(_bytesInput, number);
         return number;
     }
 
+    // gas 28906 (33242)
+    function create2(bytes memory _bytesInput) public returns (uint256) {
+        number = createNumberWithInput2(_bytesInput, number);
+        return number;
+    }
+
+    // gas 28916 (33254)
+    function create3(bytes memory _bytesInput) public returns (uint256) {
+        number = createNumberWithInput3(_bytesInput, number);
+        return number;
+    }
+
+    // gas 28925 (33264)
+    function create4(bytes memory _bytesInput) public returns (uint256) {
+        number = createNumberWithInput4(_bytesInput, number);
+        return number;
+    }
+    // 0x0000000000000000000000005b38da6a701c568545dcfcb03fcb875f56beddc4
 
     // gas 32909 ""
     function create(string memory _stringInput) public returns (uint256) { // gas 33716
@@ -198,6 +235,10 @@ contract TrueRandomResearch {
     // if perhaps sire wishes to send us the address instead?
     function getForSender(address _a) public view returns (uint256) {
         return createNumberWithInput(abi.encode(_a), numbers[msg.sender]);
+    }
+
+    function convert() public view returns (bytes memory) {
+        return abi.encode(msg.sender);
     }
 
 }
