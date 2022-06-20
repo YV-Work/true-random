@@ -106,26 +106,38 @@ contract TrueRandomResearch {
     }
     // 0x0000000000000000000000005b38da6a701c568545dcfcb03fcb875f56beddc4
 
-    // gas 32909 ""
+    // gas 29718 (34176)
     function create(string memory _stringInput) public returns (uint256) { // gas 33716
         number = createNumberWithInput(bytes(_stringInput), number);
         return number;
     }
 
-    // gas 32784 ""
+    // gas 29609 (34051)
     function create2(string memory _stringInput) public returns (uint256) { // gas 33591
         uint n = createNumberWithInput(bytes(_stringInput), number);
         number = n;
         return n;
     }
 
-    // gas 32739 ""
+    // gas 29618 (34061)
+    function create5(string memory _stringInput) public returns (uint256) { // gas 33591
+        uint n = createNumberWithInput2(bytes(_stringInput), number);
+        number = n;
+        return n;
+    }
+
+    // ^^^ This makes no sense to me
+    // somehow with different input params
+    // we come to different gas results
+    // must try different EVM
+
+    // gas 29637 (34083)
     function create3(string memory _stringInput) public returns (uint256) { // gas 33546
         number = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(bytes(_stringInput)))));
         return number;
     }
 
-    // gas 32830 ""
+    // gas 29649 (34097)
     function create4(string memory _stringInput) public returns (uint256) { // gas 33637
         uint n = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(bytes(_stringInput)))));
         number = n;
