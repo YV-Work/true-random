@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-import "hardhat/console.sol";
+import ".\TrueRandomInterface.sol";
 
 
 /**
@@ -11,7 +11,7 @@ import "hardhat/console.sol";
  * @custom:dev-run-script ./scripts/deploy_with_ethers.ts
  */
 //0x022366c32c51a0278922c465947921b6bf3610ac
-contract TrueRandomResearch {
+contract TrueRandom is TrueRandomInterface {
 
     uint256 private number;
     uint64 private previous;
