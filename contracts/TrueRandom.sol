@@ -1,17 +1,15 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: Apache-2.0
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity 0.8.8;
 
-import "./TrueRandomInterface.sol";
-
+import "./ITrueRandom.sol";
 
 /**
- * @title Storage
- * @dev Store & retrieve value in a variable
- * @custom:dev-run-script ./scripts/deploy_with_ethers.ts
+ * @title TrueRandom 1.0
+ * @dev
+ * @custom:empty
  */
-//0x022366c32c51a0278922c465947921b6bf3610ac
-contract TrueRandom is TrueRandomInterface {
+contract TrueRandom is ITrueRandom {
 
     uint256 private number;
     uint64 private previous;
@@ -122,63 +120,5 @@ contract TrueRandom is TrueRandomInterface {
     function get(address _a) override external view returns (uint256) {
         return generateWithInput(abi.encode(_a), number);
     }
-
-    // create personal number
-    // personal number function is an extension used to store generated number
-    // alternatively it is designed to provide you with a "parallel" stored salt
-    // it is recommended to use such functionality as little as possible
-
-    /**
-     * @dev Saves new value, this action is necessary to remove block.timestamp shift predictability
-     * @return value of randomly generated uint256 'number'
-     */
-
-    /*
-   function generateNewPrivateNumberForAddress(bytes memory _uInput, address _address) private returns (uint256) {
-       number = generateWithInput(_uInput, numbers[_address]);
-       numbers[_address] = number;
-       return number;
-   }
-
-   function generateNewexternalNumberForAddress(bytes memory _uInput, address _address) private returns (uint256) {
-       number = generateWithInput(_uInput, number);
-       numbers[_address] = number;
-       return number;
-   }
-
-   function createPrivateForSender(bytes memory _bytesInput) external returns (uint256) {
-       address _address = msg.sender;
-       number = generateWithInput(_bytesInput, numbers[_address]);
-       numbers[_address] = number;
-       return number;
-   }
-
-   function createexternalForSender(bytes memory _bytesInput) external returns (uint256) {
-       numbers[msg.sender] = create(_bytesInput);
-       return number;
-   }
-
-   // default for special users
-   function getForSender() external view returns (uint256) {
-       return generateWOInput(numbers[msg.sender]);
-   }
-
-   // rest for special users
-   function getForSender(bytes memory _b) external view returns (uint256) {
-       return generateWithInput(_b, numbers[msg.sender]);
-   }
-
-   function getForSender(string memory _s) external view returns (uint256) {
-       return generateWithInput(bytes(_s), numbers[msg.sender]);
-   }
-
-   // if perhaps sire wishes to send us the address instead?
-   function getForSender(address _a) external view returns (uint256) {
-       return generateWithInput(abi.encode(_a), numbers[msg.sender]);
-   }
-
-   function convert() external view returns (bytes memory) {
-       return abi.encode(msg.sender);
-   }*/
 
 }

@@ -1,8 +1,8 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: Apache-2.0
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity 0.8.8;
 
-interface TrueRandomInterface{
+interface ITrueRandom{
 
     // create
     // create function is used to generate new number
