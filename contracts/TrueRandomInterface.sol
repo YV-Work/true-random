@@ -10,13 +10,13 @@ interface TrueRandomInterface{
     // create should be used at least once in an hour to prevent any interference from miner or code executor
     // ideally, use create once per solidity computation session
     function create()
-        public returns(uint256);
+    external returns(uint256);
     function create(bytes memory _b)
-        public returns(uint256);
+    external returns(uint256);
     function create(string memory _s)
-        public returns(uint256);
+    external returns(uint256);
     function create(address _a)
-        public returns(uint256);
+    external returns(uint256);
 
     // get
     // unlike create, get uses state and user defined salt without any state manipulation
@@ -24,11 +24,10 @@ interface TrueRandomInterface{
     // use get AFTER initial create call reset state salt
     // roughly 1/6 cheaper than create operations
     function get()
-        public view returns(uint256);
+    external view returns(uint256);
     function get(bytes memory _b)
-        public view returns(uint256);
-    function get(string memory _s)
-        public view returns(uint256);
+    external view returns(uint256);
+    function get(string memory _s) external view returns(uint256);
     function get(address _a)
-        public view returns(uint256);
+    external view returns(uint256);
 }

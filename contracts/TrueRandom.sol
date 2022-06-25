@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-import ".\TrueRandomInterface.sol";
+import "./TrueRandomInterface.sol";
 
 
 /**
@@ -49,7 +49,7 @@ contract TrueRandom is TrueRandomInterface {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create() public returns (uint256) {
+    function create() override external returns (uint256) {
         uint256 n = generateWOInput(number);
         number = n;
         return n;
@@ -59,7 +59,7 @@ contract TrueRandom is TrueRandomInterface {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create(bytes memory _bytesInput) public returns (uint256) {
+    function create(bytes memory _bytesInput) override external returns (uint256) {
         uint256 n = generateWithInput(_bytesInput, number);
         number = n;
         return n;
@@ -69,7 +69,7 @@ contract TrueRandom is TrueRandomInterface {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create(string memory _stringInput) public returns (uint256) { // gas 33591
+    function create(string memory _stringInput) override external returns (uint256) { // gas 33591
         uint256 n = generateWithInput(bytes(_stringInput), number);
         number = n;
         return n;
@@ -79,7 +79,7 @@ contract TrueRandom is TrueRandomInterface {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create(address _addressInput) public returns (uint256) {
+    function create(address _addressInput) override external returns (uint256) {
         uint256 n = generateWithInput(abi.encode(_addressInput), number);
         number = n;
         return n;
@@ -95,7 +95,7 @@ contract TrueRandom is TrueRandomInterface {
      * @dev Generates new random num, can be called from SDK
      * @return newly generated random number
      */
-    function get() public returns (uint256) {
+    function get() override external view returns (uint256) {
         return generateWOInput(number);
     }
 
@@ -103,24 +103,24 @@ contract TrueRandom is TrueRandomInterface {
      * @dev Generates new random num, can be called from SDK
      * @return newly generated random number
      */
-    function get(bytes memory _bytesInput) public returns (uint256) {
-        return generateWithInput(_bytesInput, number);
+    function get(bytes memory _b) override external view returns (uint256) {
+        return generateWithInput(_b, number);
     }
 
     /**
      * @dev Generates new random num, can be called from SDK
      * @return newly generated random number
      */
-    function get(string memory _stringInput) public returns (uint256) { // gas 33591
-        return generateWithInput(bytes(_stringInput), number);
+    function get(string memory _s) override external view returns(uint256) { // gas 33591
+        return generateWithInput(bytes(_s), number);
     }
 
     /**
      * @dev Generates new random num, can be called from SDK
      * @return newly generated random number
      */
-    function get(address _addressInput) public returns (uint256) {
-        return generateWithInput(abi.encode(_addressInput), number);
+    function get(address _a) override external view returns (uint256) {
+        return generateWithInput(abi.encode(_a), number);
     }
 
     // create personal number
@@ -132,70 +132,53 @@ contract TrueRandom is TrueRandomInterface {
      * @dev Saves new value, this action is necessary to remove block.timestamp shift predictability
      * @return value of randomly generated uint256 'number'
      */
-    function generateNewPrivateNumberForAddress(bytes memory _uInput, address _address) private returns (uint256) {
-        number = generateWithInput(_uInput, numbers[_address]);
-        numbers[_address] = number;
-        return number;
-    }
 
-    function generateNewPublicNumberForAddress(bytes memory _uInput, address _address) private returns (uint256) {
-        number = generateWithInput(_uInput, number);
-        numbers[_address] = number;
-        return number;
-    }
+    /*
+   function generateNewPrivateNumberForAddress(bytes memory _uInput, address _address) private returns (uint256) {
+       number = generateWithInput(_uInput, numbers[_address]);
+       numbers[_address] = number;
+       return number;
+   }
 
-    function createPrivateForSender(bytes memory _bytesInput) public returns (uint256) {
-        address _address = msg.sender;
-        number = generateWithInput(_bytesInput, numbers[_address]);
-        numbers[_address] = number;
-        return number;
-    }
+   function generateNewexternalNumberForAddress(bytes memory _uInput, address _address) private returns (uint256) {
+       number = generateWithInput(_uInput, number);
+       numbers[_address] = number;
+       return number;
+   }
 
-    function createPublicForSender(bytes memory _bytesInput) public returns (uint256) {
-        numbers[msg.sender] = create(_bytesInput);
-        return number;
-    }
+   function createPrivateForSender(bytes memory _bytesInput) external returns (uint256) {
+       address _address = msg.sender;
+       number = generateWithInput(_bytesInput, numbers[_address]);
+       numbers[_address] = number;
+       return number;
+   }
 
-    // default
-    function get() public view returns (uint256) {
-        return generateWOInput(number);
-    }
+   function createexternalForSender(bytes memory _bytesInput) external returns (uint256) {
+       numbers[msg.sender] = create(_bytesInput);
+       return number;
+   }
 
-    // special for everyone
-    function get(bytes memory _b) public view returns (uint256) {
-        return generateWithInput(_b, number);
-    }
+   // default for special users
+   function getForSender() external view returns (uint256) {
+       return generateWOInput(numbers[msg.sender]);
+   }
 
-    function get(string memory _s) public view returns (uint256) {
-        return generateWithInput(bytes(_s), number);
-    }
+   // rest for special users
+   function getForSender(bytes memory _b) external view returns (uint256) {
+       return generateWithInput(_b, numbers[msg.sender]);
+   }
 
-    // if perhaps sire wishes to send us the address instead?
-    function get(address _a) public view returns (uint256) { // gas 25330
-        return generateWithInput(abi.encode(_a), number);
-    }
+   function getForSender(string memory _s) external view returns (uint256) {
+       return generateWithInput(bytes(_s), numbers[msg.sender]);
+   }
 
-    // default for special users
-    function getForSender() public view returns (uint256) {
-        return generateWOInput(numbers[msg.sender]);
-    }
+   // if perhaps sire wishes to send us the address instead?
+   function getForSender(address _a) external view returns (uint256) {
+       return generateWithInput(abi.encode(_a), numbers[msg.sender]);
+   }
 
-    // rest for special users
-    function getForSender(bytes memory _b) public view returns (uint256) {
-        return generateWithInput(_b, numbers[msg.sender]);
-    }
-
-    function getForSender(string memory _s) public view returns (uint256) {
-        return generateWithInput(bytes(_s), numbers[msg.sender]);
-    }
-
-    // if perhaps sire wishes to send us the address instead?
-    function getForSender(address _a) public view returns (uint256) {
-        return generateWithInput(abi.encode(_a), numbers[msg.sender]);
-    }
-
-    function convert() public view returns (bytes memory) {
-        return abi.encode(msg.sender);
-    }
+   function convert() external view returns (bytes memory) {
+       return abi.encode(msg.sender);
+   }*/
 
 }
