@@ -73,4 +73,4 @@ async function deploySmartContract(abiLocation) {
     createSmartContract(bytecodeFileId);
 }
 
-deploySmartContract("../../../contracts/abis/TrueRandom.json");
+deploySmartContract("../../Solidity/abis/Example.json");
