@@ -6,9 +6,15 @@ const {
 const {setupClient} = require("./utils/client");
 const {eToNumber} = require("./utils/utils");
 require("dotenv").config();
-let client;
-client = setupClient();
+const client = setupClient();
 
+/**
+ * Alternative usage to example.js
+ * The JS SDK calls to an ExampleSDK.sol SC which queries and stores RNG from TrueRandom
+ * for use across entire app, be it set of smart contracts or SDK off-chain logic
+ * @param contractId ExampleSDK.sol address (true-random/examples/Solidity/ExampleSDK.sol)
+ * @returns {BigNumber} 32B RNG
+ */
 async function getNewNumber(contractId) {
     const contractQuery = new ContractExecuteTransaction()
         .setGas(60000)
@@ -27,8 +33,14 @@ async function getNewNumber(contractId) {
     return eToNumber(getMessage.getInt256(0));
 }
 
+/**
+ * Downside of such logic is cost inefficiency + execution time
+ * However, in real dapp usecases you are unlikely to encounter
+ * a need to generate 320B of Random numbers...
+ * @returns void
+ */
 async function example() {
-    const exampleSDK = ContractId.fromString(process.env.EXAMPLE_SDK_SC);
+    const exampleSDK = ContractId.fromString(process.env.EXAMPLE_SDK_SC); // 0.0.46813450 on Testnet
     let message;
     for (let i = 0; i < 10; i++) {
         message = await getNewNumber(exampleSDK);

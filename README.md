@@ -1,4 +1,4 @@
-#Simple. Cheap. Secure.
+# Simple. Cheap. Secure.
 
 True Random is a blockchain smart contract utility designed to provide all users with the most secure and simple yet cheap (relatively) way of generating random numbers...
 

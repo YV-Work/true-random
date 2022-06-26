@@ -2,6 +2,11 @@ const {Client} = require("@hashgraph/sdk");
 
 require("dotenv").config();
 
+/**
+ * set up Hashgraph SDK client, ID and PKEY configuration inside
+ * TODO : unwrap config or make per env functions
+ * @returns {NodeClient}
+ */
 function setupClient() {
 
     //Grab your Hedera testnet account ID and private key from your .env file
