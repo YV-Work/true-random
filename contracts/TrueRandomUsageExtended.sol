@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
-
 pragma solidity >=0.7.0 <0.9.0;
+/**
+-----***WARNING***-----
+-CONTRACT IS UNDER DEV-
+----***DONUT USE***----
+*/
+
 
 import "hardhat/console.sol";
 
@@ -10,7 +15,7 @@ import "hardhat/console.sol";
  * @dev Store & retrieve value in a variable
  * @custom:dev-run-script ./scripts/deploy_with_ethers.ts
  */
-//0x022366c32c51a0278922c465947921b6bf3610ac
+//
 contract TrueRandomResearch {
 
     uint256 private number;

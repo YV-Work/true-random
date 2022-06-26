@@ -27,7 +27,8 @@ interface ITrueRandom{
     external view returns(uint256);
     function get(bytes memory _b)
     external view returns(uint256);
-    function get(string memory _s) external view returns(uint256);
+    function get(string memory _s)
+    external view returns(uint256);
     function get(address _a)
     external view returns(uint256);
 }

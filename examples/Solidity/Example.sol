@@ -2,14 +2,15 @@
 
 pragma solidity 0.8.8;
 
-import "./ITrueRandom.sol";
+import "../../contracts/TrueRandomConst.sol";
+import "../../contracts/ITrueRandom.sol";
 
 /**
  * @title TrueRandom usage example
  * @dev This contract utilizes true RNG capabilities
  * to create fair and unpredictable NPCs for some kind of game
  */
-contract Example {
+contract Example is TrueRandomConst {
 
     ITrueRandom rand;
 
@@ -26,8 +27,13 @@ contract Example {
 
     GameNPC[] npcs;
 
-    // initialize TrueRandom.sol on currently used network
+    constructor() {
+        rand = ITrueRandom(TrueRandomConst.HEDERA_TESTNET);
+    }
+
+    // switch TrueRandom.sol on newer version
     function connectRandomizer(address _a) public {
+        // TODO add owner check
         rand = ITrueRandom(_a);
     }
 
