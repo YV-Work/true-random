@@ -1,1 +1,3 @@
 /examples/JS/.env
+/contracts/abis/TrueRandom.json
+/contracts/TrueRandomUsageExtended.sol
