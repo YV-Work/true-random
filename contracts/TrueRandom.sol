@@ -12,8 +12,6 @@ import "./ITrueRandom.sol";
 contract TrueRandom is ITrueRandom {
 
     uint256 private number;
-    uint64 private previous;
-    mapping(address => uint) private numbers;
 
     function generateWithInput(bytes memory _toEncode, uint _number) private view returns (uint256) {
         // downsizing trims higher bytes, changing bytes of timestamp are converted

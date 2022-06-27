@@ -31,7 +31,7 @@ Any future or past event on chain can be calculated and confirmed locally.
 
 Another solution would be to rely on the timestamp as the seed. This leads to numerous problems. One of them is that the source of the block timestamp is determined by the block miner. Malicious miners can shift a block's timestamp within a 10-14 seconds window of block being created. Since the block time is not constant and varies between 1 and 19 seconds depending on many factors, miners have a safe period of few seconds in which to shift the timestamp and create a "random" number.
 
-_[See Note #3 under time-units section](https://docs.soliditylang.org/en/latest/units-and-global-variables.html?highlight=block.timestamp#time-units) of official solidity documentation._
+_[See Note #3 under "Special Variables and Functions" section](https://docs.soliditylang.org/en/latest/units-and-global-variables.html?highlight=block.timestamp#special-variables-and-functions) of official solidity documentation._
 
 ### `block.timestamp` Refresh Rate
 
@@ -77,7 +77,7 @@ Therefore, this value is completely independent of the user and cannot be abused
 
 So instead of using one specific PRNG source, `TrueRandom.sol` combines all 3 options in order to generate byte record that's virtually protected from all attack anglesd by all combined seeds.
 
-![TrueRandom.sol Salt assembly](./docs/TrueRandomSalt.jpg?raw=true "True Random salt")
+![TrueRandom.sol Salt assembly](./docs/TrueRandomSalt.png?raw=true "True Random salt")
 
 To stay within 32B to 32B conversion (proven to be cheaper than direct encoding and reliable in regard to integer overflow, PRNG trims all incoming variables to fit such bytes structure. 
 As of solidity 0.8.8 variables are always trimmed down so the produced timestamp value is always made form lower, refreshing digits.
@@ -88,3 +88,8 @@ Fulfilling the key demand of "True" RNG.
 TODO add a chapter about usage from SDKs vs usage from 
 
 _Currently deployed only on Ethereum Rinkeby and Hedera previewnet, testnet, `TrueRandom.sol` contains set of useful functions to protect your randomly generated numbers, make more cost efficient calls with less security but for 80% gas needed and utilise general mechanism which makes this smart contract sufficiently unpredictable._
+
+P.S. Donations are welcomed :-)
+ - Hedera - 0.0.1026509
+ - Ethereum - 0xe8D6A5a34627cEd482c2E6488b2C367d09295f86
+
