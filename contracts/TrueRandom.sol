@@ -13,7 +13,7 @@ contract TrueRandom is ITrueRandom {
 
     uint256 private number;
 
-    function generateWithInput(bytes memory _toEncode, uint _number) private view returns (uint256) {
+    function generateWithInput(bytes calldata _toEncode, uint _number) private view returns (uint256) {
         // downsizing trims higher bytes, changing bytes of timestamp are converted
         // 8B + 8B + 16B = 32B, not necessary
         // trimming functions as precaution layer, also saves gas
@@ -55,7 +55,7 @@ contract TrueRandom is ITrueRandom {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create(bytes memory _bytesInput) override external returns (uint256) {
+    function create(bytes calldata _bytesInput) override external returns (uint256) {
         uint256 n = generateWithInput(_bytesInput, number);
         number = n;
         return n;
@@ -65,7 +65,7 @@ contract TrueRandom is ITrueRandom {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create(string memory _stringInput) override external returns (uint256) { // gas 33591
+    function create(string calldata _stringInput) override external returns (uint256) { // gas 33591
         uint256 n = generateWithInput(bytes(_stringInput), number);
         number = n;
         return n;
@@ -76,9 +76,10 @@ contract TrueRandom is ITrueRandom {
      * @return newly generated random number
      */
     function create(address _addressInput) override external returns (uint256) {
-        uint256 n = generateWithInput(abi.encode(_addressInput), number);
-        number = n;
-        return n;
+        // uint256 n = generateWithInput(abi.encode(_addressInput), number);
+        // number = n;
+        return number;
+        // TODO: fix asap, abi.encode  - Invalid implicit conversion from bytes memory to bytes calldata requested.
     }
 
     // get
@@ -99,7 +100,7 @@ contract TrueRandom is ITrueRandom {
      * @dev Generates new random num, can be called from SDK
      * @return newly generated random number
      */
-    function get(bytes memory _b) override external view returns (uint256) {
+    function get(bytes calldata _b) override external view returns (uint256) {
         return generateWithInput(_b, number);
     }
 
@@ -107,7 +108,7 @@ contract TrueRandom is ITrueRandom {
      * @dev Generates new random num, can be called from SDK
      * @return newly generated random number
      */
-    function get(string memory _s) override external view returns(uint256) { // gas 33591
+    function get(string calldata _s) override external view returns(uint256) { // gas 33591
         return generateWithInput(bytes(_s), number);
     }
 
@@ -116,7 +117,9 @@ contract TrueRandom is ITrueRandom {
      * @return newly generated random number
      */
     function get(address _a) override external view returns (uint256) {
-        return generateWithInput(abi.encode(_a), number);
+        // return generateWithInput(abi.encode(_a), number);
+        // TODO: fix asap, abi.encode  - Invalid implicit conversion from bytes memory to bytes calldata requested.
+        return number;
     }
 
 }
