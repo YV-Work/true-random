@@ -6,6 +6,7 @@ const {
 } = require("@hashgraph/sdk");
 const {setupClient} = require("./utils/client");
 const {eToNumber} = require("./utils/utils");
+const {HEDERA: TrueRandomAddress} = require("@yv-work/true-random-sol/js/const");
 require("dotenv").config();
 let client = setupClient();
 
@@ -52,7 +53,8 @@ async function setRandomNumber(contractId, seed) {
  * @returns void
  */
 async function example() {
-    const trueRandomSC = ContractId.fromString(process.env.TRUE_RANDOM); // 0.0.46810017 on testnet, 0.0.3882 on prevnet
+    // const trueRandomSC = ContractId.fromString(process.env.TRUE_RANDOM); // 0.0.46810017 on testnet, 0.0.3882 on prevnet
+    const trueRandomSC = ContractId.fromString(TrueRandomAddress.TESTNET); // 0.0.46810017 on testnet, 0.0.3882 on prevnet
     await setRandomNumber(trueRandomSC, Math.random()); // TrueRandom seed alteration
     for (let i = 0; i < 10; i++) {
         // choose whatever (un)predictable seed is preferred
