@@ -35,6 +35,12 @@ contract TrueRandomResearch {
         // bytes memory toKeccak = abi.encode(uint64(_number), uint64(block.timestamp), bytes16(_toEncode));
         return uint(keccak256(abi.encode(uint64(_number), uint64(block.timestamp), bytes16(_toEncode))));  // converting 32B data into 32B hash into 32B uint
     }
+    function createNumberWithInput5(bytes calldata _toEncode, uint _number) private view returns (uint256) {
+        // downsizing trims higher bytes, changing bytes of timestamp are safe
+        // 8B + 8B + 16B = 32B, not necessary, precaution layer
+        // bytes memory toKeccak = abi.encode(uint64(_number), uint64(block.timestamp), bytes16(_toEncode));
+        return uint(keccak256(abi.encode(uint64(_number), uint64(block.timestamp), bytes16(_toEncode))));  // converting 32B data into 32B hash into 32B uint
+    }
     function createNumberWithInput3(bytes memory _toEncode, uint _number) private view returns (uint256) {
         // downsizing trims higher bytes, changing bytes of timestamp are safe
         // 8B + 8B + 16B = 32B, not necessary, precaution layer
@@ -77,10 +83,7 @@ contract TrueRandomResearch {
         return number;
     }
 
-    /**
-     * @dev Saves new value, this action is necessary to remove block.timestamp shift predictability
-     * @return value of 'number'
-     */
+
     function create() public returns (uint256) {
         number = createNumber(number);
         return number;
@@ -111,13 +114,27 @@ contract TrueRandomResearch {
     }
     // 0x0000000000000000000000005b38da6a701c568545dcfcb03fcb875f56beddc4
 
+    /**
+     * create1 - 33065 (28752)
+     * create2 - 32940 (28643)
+     * create3 - 32997 (28693)
+     * create4 - 32986 (28683)
+     * create5 - 33001 (28696)
+     * create6 - 32575 (28326)
+     * create7 - 32309 (28094)
+     * create8 - 32298 (28085)
+     * create9 - 32248 (28041)
+     */
+
     // gas 29718 (34176)
+    // "s" 33065 gas (28752)
     function create(string memory _stringInput) public returns (uint256) { // gas 33716
         number = createNumberWithInput(bytes(_stringInput), number);
         return number;
     }
 
     // gas 29609 (34051)
+    // "s" 32940 gas (28643)
     function create2(string memory _stringInput) public returns (uint256) { // gas 33591
         uint n = createNumberWithInput(bytes(_stringInput), number);
         number = n;
@@ -125,8 +142,36 @@ contract TrueRandomResearch {
     }
 
     // gas 29618 (34061)
+    // "s" 33001 gas (28696)
     function create5(string memory _stringInput) public returns (uint256) { // gas 33591
         uint n = createNumberWithInput2(bytes(_stringInput), number);
+        number = n;
+        return n;
+    }
+
+    // "s" 32575 gas (28326)
+    function create6(string calldata _stringInput) public returns (uint256) { // gas 33591
+        uint n = createNumberWithInput2(bytes(_stringInput), number);
+        number = n;
+        return n;
+    }
+
+    // "s" 32309 gas (28094)
+    function create7(string calldata _stringInput) public returns (uint256) { // gas 33591
+        uint n = createNumberWithInput5(bytes(_stringInput), number);
+        number = n;
+        return n;
+    }
+
+    // "s" 32259 gas (28051)
+    function create8(string calldata _stringInput) public returns (uint256) { // gas 33591
+        number = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(bytes(_stringInput)))));
+        return number;
+    }
+
+    // "s" 32309 gas (28094)
+    function create9(string calldata _stringInput) public returns (uint256) { // gas 33591
+        uint n = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(bytes(_stringInput)))));
         number = n;
         return n;
     }
@@ -136,13 +181,13 @@ contract TrueRandomResearch {
     // we come to different gas results
     // must try different EVM
 
-    // gas 29637 (34083)
+    // "s" 32997 gas (28693)
     function create3(string memory _stringInput) public returns (uint256) { // gas 33546
         number = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(bytes(_stringInput)))));
         return number;
     }
 
-    // gas 29649 (34097)
+    // "s" 32986 gas (28683)
     function create4(string memory _stringInput) public returns (uint256) { // gas 33637
         uint n = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(bytes(_stringInput)))));
         number = n;
