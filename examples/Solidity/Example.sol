@@ -2,8 +2,8 @@
 
 pragma solidity 0.8.8;
 
-import "../../contracts/TrueRandomConst.sol";
-import "../../contracts/ITrueRandom.sol";
+import "@yv-work/true-random-sol/contracts/ITrueRandom.sol";
+import "@yv-work/true-random-sol/contracts/TrueRandomConst.sol";
 
 /**
  * @title TrueRandom usage example
