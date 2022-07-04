@@ -1,0 +1,32 @@
+{
+  "name": "@yv-work/true-random-sol",
+  "version": "1.1.0",
+  "description": "True Random is a blockchain smart contract utility designed to provide all users with the most secure and simple yet cheap (relatively) way of generating random numbers.",
+  "main": "./contracts/ITrueRandom.sol",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YV-Work/true-random.git"
+  },
+  "keywords": [
+    "solidity",
+    "smart-contracts",
+    "ethereum",
+    "blockchain",
+    "dapps",
+    "tooling",
+    "yv"
+  ],
+  "author": "yv-work",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/YV-Work/true-random/issues"
+  },
+  "homepage": "https://github.com/YV-Work/true-random#readme"
+}
