@@ -72,3 +72,4 @@ contract Example is TrueRandomConst {
     }
 }
 ```
+You can, of course, avoid Const import by hardcoding TrueRandom.sol address. 
