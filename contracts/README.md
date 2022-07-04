@@ -57,7 +57,10 @@ This setup saves an additional 30–120 gas over return from state variable.
 > Maximising the number of calls to the TrueRandom contract improves the system's robustness. 
 > It is therefore critical to use a common RNG for all our operations.
 
-TrueRandomConst.sol is designed to simplify TrueRandom integration on the network of your choice. 
+TrueRandomConst.sol is designed to simplify TrueRandom integration on the network of your choice.
+
+# Usage 
+
 Simply assign Interface to a new variable and set it to the Const address:
 ```solidity
 import "./TrueRandomConst.sol";

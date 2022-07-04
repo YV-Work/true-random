@@ -2,6 +2,23 @@
 
 True Random is a blockchain smart contract utility designed to provide all users with the most secure and simple yet cheap (relatively) way of generating random numbers...
 
+---
+#### Table of Contents
+  - [RNG theory](#rng-theory)
+  - [Problems and complications](#problems-and-complications)
+    - [Off chain computation](#off-chain-computation-alternative)
+    - [Blockchain predetermination](#blockchain-predetermination)
+    - [Falsification of timestamps](#falsification-of-timestamps)
+    - [`block.timestamp` Refresh Rate](#blocktimestamp-refresh-rate)
+    - [Summary](#tldr)
+  - [`TrueRandom.sol` solution](#truerandomsol-solution)
+    - [Smart Contract/User generated salt](#smart-contractuser-generated-salt)
+    - [PRNG stored salt](#prng-stored-salt)
+    - [`block.timestamp`](#blocktimestamp)
+    - [Combined solution](#combined-solution)
+  - [Usage & Examples](#usage--examplesexamples)
+---
+
 ## RNG theory
 > Random number generation is a process of generating a sequence of numbers or symbols that cannot be reasonably predicted better than by chance.
 
@@ -85,7 +102,26 @@ As of solidity 0.8.8 variables are always trimmed down so the produced timestamp
 Unpredictability of such PRNG lies in the idea that system, other developers, potentially miners, as well as user, all have influence on hashing algorithm. So despite unequal influence of said parties, _no single entity can reasonably predict hashing output better than by chance_.
 Fulfilling the key demand of "True" RNG.
 
-TODO add a chapter about usage from SDKs vs usage from 
+## Usage & [Examples](./examples) 
+To help with TrueRandom implementation we provided you some [examples](./examples) of direct Smart Contract on-chain usage as well as SDK integration.
+
+On-Chain integration guide is also provided in [./contracts](./contracts) folder -
+_Simply assign Interface to a new variable and set it to the Const address:_
+```solidity
+import "@yv-work/true-random-sol/contracts/ITrueRandom.sol";
+import "@yv-work/true-random-sol/contracts/TrueRandomConst.sol";
+
+contract Example is TrueRandomConst {
+
+    ITrueRandom rand;
+    
+    constructor() {
+        rand = ITrueRandom(TrueRandomConst.HEDERA_TESTNET);
+    }
+}
+```
+
+---
 
 _Currently deployed only on Ethereum Rinkeby and Hedera previewnet, testnet, `TrueRandom.sol` contains set of useful functions to protect your randomly generated numbers, make more cost efficient calls with less security but for 80% gas needed and utilise general mechanism which makes this smart contract sufficiently unpredictable._
 
