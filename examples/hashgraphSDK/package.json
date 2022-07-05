@@ -1,0 +1,28 @@
+{
+  "name": "TrueRandom-SDK-Example",
+  "version": "1.0.0",
+  "description": "An example of TrueRandom script usage",
+  "main": "example.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YV-Work/true-random.git"
+  },
+  "keywords": [
+    "RNG",
+    "Hedera",
+    "Smart Contracts",
+    "SDK"
+  ],
+  "author": "Vladimir Right",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/YV-Work/true-random/issues"
+  },
+  "homepage": "https://github.com/YV-Work/true-random/#readme",
+  "dependencies": {
+    "@hashgraph/sdk": "^2.14.2",
+    "@yv-work/true-random-sol": "^1.1.3",
+    "dotenv": "^16.0.1"
+  }
+}

@@ -2,6 +2,23 @@
 
 True Random is a blockchain smart contract utility designed to provide all users with the most secure and simple yet cheap (relatively) way of generating random numbers...
 
+---
+#### Table of Contents
+  - [RNG theory](#rng-theory)
+  - [Problems and complications](#problems-and-complications)
+    - [Off chain computation](#off-chain-computation-alternative)
+    - [Blockchain predetermination](#blockchain-predetermination)
+    - [Falsification of timestamps](#falsification-of-timestamps)
+    - [`block.timestamp` Refresh Rate](#blocktimestamp-refresh-rate)
+    - [Summary](#tldr)
+  - [`TrueRandom.sol` solution](#truerandomsol-solution)
+    - [Smart Contract/User generated salt](#smart-contractuser-generated-salt)
+    - [PRNG stored salt](#prng-stored-salt)
+    - [`block.timestamp`](#blocktimestamp)
+    - [Combined solution](#combined-solution)
+  - [Usage & Examples](#usage--examplesexamples)
+---
+
 ## RNG theory
 > Random number generation is a process of generating a sequence of numbers or symbols that cannot be reasonably predicted better than by chance.
 
@@ -31,7 +48,7 @@ Any future or past event on chain can be calculated and confirmed locally.
 
 Another solution would be to rely on the timestamp as the seed. This leads to numerous problems. One of them is that the source of the block timestamp is determined by the block miner. Malicious miners can shift a block's timestamp within a 10-14 seconds window of block being created. Since the block time is not constant and varies between 1 and 19 seconds depending on many factors, miners have a safe period of few seconds in which to shift the timestamp and create a "random" number.
 
-_[See Note #3 under time-units section](https://docs.soliditylang.org/en/latest/units-and-global-variables.html?highlight=block.timestamp#time-units) of official solidity documentation._
+_[See Note #3 under "Special Variables and Functions" section](https://docs.soliditylang.org/en/latest/units-and-global-variables.html?highlight=block.timestamp#special-variables-and-functions) of official solidity documentation._
 
 ### `block.timestamp` Refresh Rate
 
@@ -77,7 +94,7 @@ Therefore, this value is completely independent of the user and cannot be abused
 
 So instead of using one specific PRNG source, `TrueRandom.sol` combines all 3 options in order to generate byte record that's virtually protected from all attack anglesd by all combined seeds.
 
-![TrueRandom.sol Salt assembly](./docs/TrueRandomSalt.jpg?raw=true "True Random salt")
+![TrueRandom.sol Salt assembly](./docs/TrueRandomSalt.png?raw=true "True Random salt")
 
 To stay within 32B to 32B conversion (proven to be cheaper than direct encoding and reliable in regard to integer overflow, PRNG trims all incoming variables to fit such bytes structure. 
 As of solidity 0.8.8 variables are always trimmed down so the produced timestamp value is always made form lower, refreshing digits.
@@ -85,6 +102,30 @@ As of solidity 0.8.8 variables are always trimmed down so the produced timestamp
 Unpredictability of such PRNG lies in the idea that system, other developers, potentially miners, as well as user, all have influence on hashing algorithm. So despite unequal influence of said parties, _no single entity can reasonably predict hashing output better than by chance_.
 Fulfilling the key demand of "True" RNG.
 
-TODO add a chapter about usage from SDKs vs usage from 
+## Usage & [Examples](./examples) 
+To help with TrueRandom implementation we provided you some [examples](./examples) of direct Smart Contract on-chain usage as well as SDK integration.
+
+On-Chain integration guide is also provided in [./contracts](./contracts) folder -
+_Simply assign Interface to a new variable and set it to the Const address:_
+```solidity
+import "@yv-work/true-random-sol/contracts/ITrueRandom.sol";
+import "@yv-work/true-random-sol/contracts/TrueRandomConst.sol";
+
+contract Example is TrueRandomConst {
+
+    ITrueRandom rand;
+    
+    constructor() {
+        rand = ITrueRandom(TrueRandomConst.HEDERA_TESTNET);
+    }
+}
+```
+
+---
 
 _Currently deployed only on Ethereum Rinkeby and Hedera previewnet, testnet, `TrueRandom.sol` contains set of useful functions to protect your randomly generated numbers, make more cost efficient calls with less security but for 80% gas needed and utilise general mechanism which makes this smart contract sufficiently unpredictable._
+
+P.S. Donations are welcomed :-)
+ - Hedera - 0.0.1026509
+ - Ethereum - 0xe8D6A5a34627cEd482c2E6488b2C367d09295f86
+
