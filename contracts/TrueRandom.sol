@@ -5,37 +5,12 @@ pragma solidity 0.8.8;
 import "./ITrueRandom.sol";
 
 /**
- * @title TrueRandom 1.0
- * @dev
- * @custom:empty
+ * @title TrueRandom 1.1
+ * @dev TrueRandom.sol smart contract, deployed on networks defined in ./TrueRandomConst.sol
  */
 contract TrueRandom is ITrueRandom {
 
     uint256 private number;
-    uint64 private previous;
-    mapping(address => uint) private numbers;
-
-    function generateWithInput(bytes memory _toEncode, uint _number) private view returns (uint256) {
-        // downsizing trims higher bytes, changing bytes of timestamp are converted
-        // 8B + 8B + 16B = 32B, not necessary
-        // trimming functions as precaution layer, also saves gas
-        return uint(
-            keccak256(
-                abi.encode(
-                    uint64(_number),
-                    uint64(block.timestamp),
-                    bytes16(_toEncode)
-                )
-            )
-        );  // converting 32B data into 32B hash into 32B uint
-    }
-
-    function generateWOInput(uint _number) private view returns (uint256) {
-        // downsizing trims higher bytes, changing bytes of timestamp are safe
-        // 16B + 16B = 32B, not necessary, precaution layer
-        bytes memory toKeccak = abi.encode(uint128(_number), uint128(block.timestamp));
-        return uint(keccak256(toKeccak));  // converting 32B data into 32B hash into 32B uint
-    }
 
     // create
     // create function is used to generate new number
@@ -48,7 +23,7 @@ contract TrueRandom is ITrueRandom {
      * @return newly generated random number
      */
     function create() override external returns (uint256) {
-        uint256 n = generateWOInput(number);
+        uint256 n = uint(keccak256(abi.encode(uint128(number), uint128(block.timestamp))));
         number = n;
         return n;
     }
@@ -57,8 +32,8 @@ contract TrueRandom is ITrueRandom {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create(bytes memory _bytesInput) override external returns (uint256) {
-        uint256 n = generateWithInput(_bytesInput, number);
+    function create(bytes calldata _b) override external returns (uint256) {
+        uint n = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(_b))));
         number = n;
         return n;
     }
@@ -67,8 +42,8 @@ contract TrueRandom is ITrueRandom {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create(string memory _stringInput) override external returns (uint256) { // gas 33591
-        uint256 n = generateWithInput(bytes(_stringInput), number);
+    function create(string calldata _s) override external returns (uint256) {
+        uint n = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(bytes(_s)))));
         number = n;
         return n;
     }
@@ -77,8 +52,18 @@ contract TrueRandom is ITrueRandom {
      * @dev Generates new random num, should be called from smart contract
      * @return newly generated random number
      */
-    function create(address _addressInput) override external returns (uint256) {
-        uint256 n = generateWithInput(abi.encode(_addressInput), number);
+    function create(address _a) override external returns (uint256) {
+        uint n = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(abi.encode(_a)))));
+        number = n;
+        return n;
+    }
+
+    /**
+     * @dev Generates new random num, should be called from smart contract
+     * @return newly generated random number
+     */
+    function create(uint _i) override external returns (uint256) {
+        uint n = uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), uint128(_i))));
         number = n;
         return n;
     }
@@ -94,23 +79,23 @@ contract TrueRandom is ITrueRandom {
      * @return newly generated random number
      */
     function get() override external view returns (uint256) {
-        return generateWOInput(number);
+        return uint(keccak256(abi.encode(uint128(number), uint128(block.timestamp))));
     }
 
     /**
      * @dev Generates new random num, can be called from SDK
      * @return newly generated random number
      */
-    function get(bytes memory _b) override external view returns (uint256) {
-        return generateWithInput(_b, number);
+    function get(bytes calldata _b) override external view returns (uint256) {
+        return uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(_b))));
     }
 
     /**
      * @dev Generates new random num, can be called from SDK
      * @return newly generated random number
      */
-    function get(string memory _s) override external view returns(uint256) { // gas 33591
-        return generateWithInput(bytes(_s), number);
+    function get(string calldata _s) override external view returns(uint256) { // gas 33591
+        return uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(bytes(_s)))));
     }
 
     /**
@@ -118,7 +103,15 @@ contract TrueRandom is ITrueRandom {
      * @return newly generated random number
      */
     function get(address _a) override external view returns (uint256) {
-        return generateWithInput(abi.encode(_a), number);
+        return uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), bytes16(abi.encode(_a)))));
+    }
+
+    /**
+     * @dev Generates new random num, can be called from SDK
+     * @return newly generated random number
+     */
+    function get(uint _i) override external view returns (uint256) {
+        return uint(keccak256(abi.encode(uint64(number), uint64(block.timestamp), uint128(_i))));
     }
 
 }

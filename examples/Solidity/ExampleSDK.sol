@@ -2,12 +2,13 @@
 
 pragma solidity 0.8.8;
 
-import "../../contracts/TrueRandomConst.sol";
-import "../../contracts/ITrueRandom.sol";
+import "@yv-work/true-random-sol/contracts/ITrueRandom.sol";
+import "@yv-work/true-random-sol/contracts/TrueRandomConst.sol";
 
 /**
  * @title TrueRandom usage example
  * @dev This contract is repurposed Storage.sol example
+ * ExampleSDK showcases combination of on-chain generation with off-chain (hashgraph SDK) usage
  * should be used if an output needs to come out of blockchain but is needed to be parsed through SDK
  */
 contract ExampleSDK is TrueRandomConst {

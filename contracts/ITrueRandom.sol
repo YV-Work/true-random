@@ -11,11 +11,13 @@ interface ITrueRandom{
     // ideally, use create once per solidity computation session
     function create()
     external returns(uint256);
-    function create(bytes memory _b)
+    function create(bytes calldata _b)
     external returns(uint256);
-    function create(string memory _s)
+    function create(string calldata _s)
     external returns(uint256);
     function create(address _a)
+    external returns(uint256);
+    function create(uint _i)
     external returns(uint256);
 
     // get
@@ -25,10 +27,12 @@ interface ITrueRandom{
     // roughly 1/6 cheaper than create operations
     function get()
     external view returns(uint256);
-    function get(bytes memory _b)
+    function get(bytes calldata _b)
     external view returns(uint256);
-    function get(string memory _s)
+    function get(string calldata _s)
     external view returns(uint256);
     function get(address _a)
+    external view returns(uint256);
+    function get(uint _i)
     external view returns(uint256);
 }
