@@ -13,4 +13,4 @@ const ETHEREUM = {
 
 // SOLANA soon
 
-export {HEDERA, ETHEREUM};
+module.exports = {HEDERA, ETHEREUM};
