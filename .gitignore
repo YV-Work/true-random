@@ -1,1 +1,3 @@
 /examples/hashgraphSDK/.env
+/contracts/abis/TrueRandom.json
+/contracts/TrueRandomUsageExtended.sol
