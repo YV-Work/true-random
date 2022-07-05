@@ -1,7 +1,7 @@
 const HEDERA = {
     TESTNET: "0.0.47544989",
     PREVIEWNET: "0.0.40147",
-    MAINNET: "0.0.1",
+    MAINNET: "0.0.1041599",
 };
 
 const ETHEREUM = {
