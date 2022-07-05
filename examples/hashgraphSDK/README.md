@@ -15,8 +15,8 @@ MY_PRIVATE_KEY = YOUR_PKEY
 TREASURY_PKEY = YOUR_TREASURY_PKEY #used as SC treasury when deploying scripts
 EXAMPLE_SC = 0.0.46810020 #Example.sol Smart Contract address (specified is Hedera Testnet addr)
 EXAMPLE_SDK_SC = 0.0.46813450 #ExampleSDK.sol same thing 
-TRUE_RANDOM_TESTNET = 0.0.46813450
-TRUE_RANDOM_PREVIEWNET = 0.0.3882
+TRUE_RANDOM_TESTNET = 0.0.47544989
+TRUE_RANDOM_PREVIEWNET = 0.0.40147
 ```
 
 Alternatively, replace `process.env.*` references in code with your own values.
