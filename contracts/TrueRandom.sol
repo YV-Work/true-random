@@ -2,10 +2,10 @@
 
 pragma solidity 0.8.8;
 
-import "./ITrueRandom.sol";
+import "@yv-work/true-random-sol/contracts/ITrueRandom.sol";
 
 /**
- * @title TrueRandom 1.1
+ * @title TrueRandom 1.2.1
  * @dev TrueRandom.sol smart contract, deployed on networks defined in ./TrueRandomConst.sol
  */
 contract TrueRandom is ITrueRandom {
