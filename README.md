@@ -123,7 +123,16 @@ contract Example is TrueRandomConst {
 
 ---
 
-_Currently deployed only on Ethereum Rinkeby and Hedera previewnet, testnet, `TrueRandom.sol` contains set of useful functions to protect your randomly generated numbers, make more cost efficient calls with less security but for 80% gas needed and utilise general mechanism which makes this smart contract sufficiently unpredictable._
+
+_Currently deployed only on Hedera previewnet, testnet, `TrueRandom.sol` contains set of useful functions to protect your randomly generated numbers, make more cost efficient calls with less security but for 80% gas needed and utilise general mechanism which makes this smart contract sufficiently unpredictable._
+
+
+Logos for your project can be found in `/docs/`.
+
+<img alt="Logo light" src="./docs/logo_light.png" title="Logo light" width="49%"/>
+<img alt="Logo dark" src="./docs/logo_dark.png" title="Logo light" width="49%"/>
+<img alt="Logo light powered by" src="./docs/logo_light_powered_by.png" title="Logo light powered by" width="49%"/>
+<img alt="Logo dark powered by" src="./docs/logo_dark_powered_by.png" title="Logo dark powered by" width="49%"/>
 
 P.S. Donations are welcomed :-)
  - Hedera - 0.0.1026509

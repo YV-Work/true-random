@@ -1,5 +1,5 @@
 const HEDERA = {
-    TESTNET: "0.0.47544989",
+    TESTNET: "0.0.3698166",
     PREVIEWNET: "0.0.40147",
     MAINNET: "0.0.1041599",
 };
@@ -13,4 +13,4 @@ const ETHEREUM = {
 
 // SOLANA soon
 
-module.exports = {HEDERA, ETHEREUM};
+export {HEDERA, ETHEREUM};
