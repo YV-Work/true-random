@@ -1,6 +1,6 @@
 {
   "name": "@yv-work/true-random-sol",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "True Random is a blockchain smart contract utility designed to provide all users with the most secure and simple yet cheap (relatively) way of generating random numbers.",
   "main": "./contracts/ITrueRandom.sol",
   "directories": {
