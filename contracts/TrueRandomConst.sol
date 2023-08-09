@@ -3,7 +3,6 @@ pragma solidity 0.8.8;
 
 abstract contract TrueRandomConst {
 
-    address internal constant HEDERA_TESTNET = address(0x000000000000000000000000000000000000386df6);
     address internal constant HEDERA_TESTNET = address(0x000000000000000000000000000000000000069710);
         // TrueRandom.sol on Hedera testnet (0.0.431888)
     address internal constant HEDERA_PREVIEWNET = address(0x000000000000000000000000000000000000009cd3);
